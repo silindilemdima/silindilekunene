@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — Silindile Kunene · Graphic Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Cabinet+Grotesk:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#ff6a00; --or2:#ff8c3a; --or-dim:rgba(255,106,0,0.07);
+  --bg:#000; --s1:#0a0a0a; --s2:#111; --s3:#181818;
+  --text:#fff; --t70:rgba(255,255,255,0.7); --t50:rgba(255,255,255,0.5);
+  --t25:rgba(255,255,255,0.25); --t10:rgba(255,255,255,0.1); --t06:rgba(255,255,255,0.06);
+  --ease:cubic-bezier(0.76,0,0.24,1); --ease2:cubic-bezier(0.22,1,0.36,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Cabinet Grotesk',sans-serif;overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+#cur{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;}
+.cd{width:8px;height:8px;background:var(--or);border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:width .25s var(--ease),height .25s var(--ease);}
+.cr{width:34px;height:34px;border:1.5px solid rgba(255,255,255,0.3);border-radius:50%;position:absolute;transform:translate(-50%,-50%);transition:all .35s var(--ease);}
+body.hov .cd{width:58px;height:58px;background:rgba(255,106,0,0.1);}
+body.hov .cr{width:58px;height:58px;border-color:var(--or);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 52px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,padding .4s;}
+nav.sc{background:rgba(0,0,0,0.96);backdrop-filter:blur(20px);padding:18px 52px;border-bottom:1px solid rgba(255,106,0,0.1);}
+.nlogo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;letter-spacing:.05em;color:#fff;text-decoration:none;}
+.nlogo em{color:var(--or);font-style:normal;}
+.nlinks{display:flex;gap:40px;list-style:none;align-items:center;}
+.nlinks a{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t50);text-decoration:none;transition:color .3s;position:relative;}
+.nlinks a::after{content:'';position:absolute;bottom:-3px;left:0;right:100%;height:1px;background:var(--or);transition:right .3s var(--ease);}
+.nlinks a:hover,.nlinks a.active{color:#fff;}
+.nlinks a:hover::after,.nlinks a.active::after{right:0;}
+.ncta{background:var(--or)!important;color:#000!important;padding:10px 26px!important;}
+.ncta:hover{background:#fff!important;color:#000!important;}
+.ncta::after{display:none!important;}
+.ntog{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px;}
+.ntog span{display:block;width:28px;height:1.5px;background:#fff;}
+.mob{display:none;position:fixed;inset:0;z-index:999;background:#000;flex-direction:column;align-items:center;justify-content:center;gap:40px;}
+.mob.open{display:flex;}
+.mob a{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:#fff;text-decoration:none;transition:color .3s;}
+.mob a:hover{color:var(--or);}
+.mob-x{position:absolute;top:28px;right:28px;background:none;border:none;color:#fff;font-size:2rem;cursor:none;}
+
+/* HERO */
+.sv-hero{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:140px 52px 100px;position:relative;overflow:hidden;
+}
+.sv-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(255,106,0,0.06) 0%,transparent 65%);}
+.sv-hero-eyebrow{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.35em;text-transform:uppercase;color:var(--or);margin-bottom:32px;display:flex;align-items:center;gap:16px;justify-content:center;opacity:0;animation:fU .8s var(--ease2) 1.5s both;}
+.sv-hero-eyebrow::before,.sv-hero-eyebrow::after{content:'';display:block;width:36px;height:1px;background:var(--or);}
+.sv-hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(4rem,9vw,11rem);font-weight:300;line-height:.92;letter-spacing:-.02em;opacity:0;animation:fU .9s var(--ease2) 1.7s both;}
+.sv-hero-title em{font-style:italic;color:var(--or);}
+.sv-hero-desc{font-size:1.1rem;line-height:1.8;color:var(--t50);max-width:560px;font-weight:300;margin-top:40px;opacity:0;animation:fU .8s var(--ease2) 1.9s both;}
+.sv-hero-scroll{margin-top:80px;display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;animation:fU .8s var(--ease2) 2.1s both;}
+.sv-scroll-line{width:1px;height:64px;background:linear-gradient(to bottom,transparent,var(--or));animation:pulse 2s ease infinite;}
+.sv-scroll-txt{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--t25);}
+@keyframes fU{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* SECTION SHARED */
+.sec-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.32em;text-transform:uppercase;color:var(--or);margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+.sec-label::before{content:'';display:block;width:26px;height:1px;background:var(--or);}
+.sec-h{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4.5vw,4rem);font-weight:300;line-height:1.1;}
+.sec-h em{font-style:italic;color:var(--or);}
+
+/* SERVICES LIST */
+.sv-list{padding:140px 52px;background:var(--s1);}
+.sv-list-header{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:100px;}
+.sv-list-intro{font-size:1rem;line-height:1.8;color:var(--t50);font-weight:300;align-self:end;max-width:400px;}
+.sv-item{
+  border-top:1px solid var(--t06);
+  display:grid;grid-template-columns:72px 1fr 1fr 200px;gap:40px;align-items:start;
+  padding:52px 0;position:relative;overflow:hidden;cursor:none;
+  transition:background .3s;
+}
+.sv-item:last-child{border-bottom:1px solid var(--t06);}
+.sv-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--or);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease);}
+.sv-item:hover::after{transform:scaleX(1);}
+.sv-item:hover{background:rgba(255,106,0,0.02);}
+.sv-num{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:var(--or);padding-top:8px;}
+.sv-main{}
+.sv-name{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;margin-bottom:16px;transition:color .3s;}
+.sv-item:hover .sv-name{color:var(--or);}
+.sv-desc{font-size:.9rem;line-height:1.7;color:var(--t50);font-weight:300;max-width:420px;}
+.sv-includes{display:flex;flex-direction:column;gap:10px;padding-top:8px;}
+.sv-include{display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--t50);}
+.sv-include::before{content:'';display:block;width:16px;height:1px;background:rgba(255,106,0,0.4);flex-shrink:0;}
+.sv-include.yes{color:var(--t70);}
+.sv-meta{display:flex;flex-direction:column;gap:16px;padding-top:8px;}
+.sv-price-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--t25);}
+.sv-price{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:#fff;}
+.sv-timeline-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--t25);margin-top:8px;}
+.sv-timeline{font-size:.9rem;color:var(--t50);}
+.sv-cta-link{display:inline-flex;align-items:center;gap:8px;color:var(--or);font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,106,0,0.3);padding-bottom:2px;margin-top:20px;transition:border-color .3s;cursor:none;}
+.sv-cta-link:hover{border-bottom-color:var(--or);}
+
+/* PACKAGES */
+.sv-packages{padding:140px 52px;background:var(--bg);}
+.packages-header{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-bottom:80px;align-items:end;}
+.packages-intro{font-size:1rem;line-height:1.8;color:var(--t50);font-weight:300;max-width:400px;align-self:end;}
+.packages-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.pkg-card{
+  background:var(--s1);padding:56px 44px;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;border-top:2px solid transparent;
+  transition:border-color .4s,background .4s;cursor:none;
+}
+.pkg-card:hover{border-top-color:var(--or);}
+.pkg-card.featured{background:var(--or);color:#000;border-top-color:var(--or);}
+.pkg-card.featured .pkg-name{color:#000;}
+.pkg-card.featured .pkg-price{color:#000;}
+.pkg-card.featured .pkg-desc{color:rgba(0,0,0,0.65);}
+.pkg-card.featured .pkg-divider{background:rgba(0,0,0,0.15);}
+.pkg-card.featured .check{color:#000;}
+.pkg-card.featured .pkg-feature{color:rgba(0,0,0,0.75);}
+.pkg-card.featured .pkg-btn{background:#000;color:#fff;}
+.pkg-card.featured .pkg-btn:hover{background:rgba(0,0,0,0.85);}
+.pkg-card.featured .pkg-label{color:rgba(0,0,0,0.5);}
+.pkg-card.featured .pkg-note{color:rgba(0,0,0,0.45);}
+.pkg-badge{
+  position:absolute;top:28px;right:28px;
+  font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;
+  background:#000;color:var(--or);padding:5px 12px;
+}
+.pkg-label{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--or);margin-bottom:20px;}
+.pkg-name{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;margin-bottom:12px;}
+.pkg-desc{font-size:.88rem;line-height:1.6;color:var(--t50);font-weight:300;margin-bottom:32px;}
+.pkg-price{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;line-height:1;margin-bottom:6px;}
+.pkg-price-note{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t25);margin-bottom:32px;}
+.pkg-divider{height:1px;background:var(--t06);margin-bottom:28px;}
+.pkg-features{display:flex;flex-direction:column;gap:12px;margin-bottom:40px;flex:1;}
+.pkg-feature{display:flex;align-items:flex-start;gap:12px;font-size:.88rem;color:var(--t70);}
+.check{color:var(--or);flex-shrink:0;font-size:.9rem;margin-top:2px;}
+.cross{color:var(--t25);flex-shrink:0;font-size:.9rem;margin-top:2px;}
+.pkg-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--or);color:#000;padding:15px 28px;
+  font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  text-decoration:none;cursor:none;transition:background .3s;border:none;margin-top:auto;
+}
+.pkg-btn:hover{background:var(--or2);}
+.pkg-note{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.15em;color:var(--t25);margin-top:16px;text-align:center;}
+
+/* PROCESS MINI */
+.sv-process{padding:140px 52px;background:var(--s1);}
+.process-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:80px;}
+.proc-step{
+  padding:52px 40px;border-left:1px solid var(--t06);
+  position:relative;cursor:default;transition:border-color .3s;
+}
+.proc-step:hover{border-left-color:var(--or);}
+.proc-n{font-family:'Cormorant Garamond',serif;font-size:6rem;font-weight:300;color:rgba(255,255,255,0.03);line-height:1;margin-bottom:12px;transition:color .3s;}
+.proc-step:hover .proc-n{color:rgba(255,106,0,0.1);}
+.proc-title{font-family:'Cabinet Grotesk',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:12px;transition:color .3s;}
+.proc-step:hover .proc-title{color:var(--or);}
+.proc-desc{font-size:.83rem;line-height:1.65;color:var(--t50);font-weight:300;}
+.proc-time{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--or);margin-top:16px;}
+
+/* FAQ */
+.sv-faq{padding:140px 52px;background:var(--bg);}
+.faq-wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:100px;align-items:start;margin-top:80px;}
+.faq-sticky{position:sticky;top:120px;}
+.faq-list{display:flex;flex-direction:column;gap:0;}
+.faq-item{border-top:1px solid var(--t06);overflow:hidden;}
+.faq-item:last-child{border-bottom:1px solid var(--t06);}
+.faq-q{
+  padding:28px 0;display:flex;justify-content:space-between;align-items:center;
+  cursor:none;gap:24px;
+}
+.faq-q-text{font-size:.97rem;font-weight:700;transition:color .3s;}
+.faq-icon{color:var(--or);font-size:1.2rem;flex-shrink:0;transition:transform .4s var(--ease);}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-item.open .faq-q-text{color:var(--or);}
+.faq-a{height:0;overflow:hidden;transition:height .4s var(--ease);}
+.faq-a-inner{padding:0 0 28px;font-size:.9rem;line-height:1.75;color:var(--t50);font-weight:300;}
+
+/* CLIENTS STRIP */
+.sv-clients{padding:80px 52px;background:var(--s1);border-top:1px solid var(--t06);}
+.cl-label{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--t25);margin-bottom:40px;text-align:center;}
+.cl-row{display:flex;flex-wrap:wrap;gap:0;justify-content:center;border:1px solid var(--t06);}
+.cl-item{
+  flex:1;min-width:160px;padding:32px 40px;border-right:1px solid var(--t06);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s;cursor:none;
+}
+.cl-item:last-child{border-right:none;}
+.cl-item:hover{background:var(--or-dim);}
+.cl-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;color:var(--t25);transition:color .3s;}
+.cl-item:hover .cl-name{color:var(--or);}
+
+/* CTA */
+.sv-cta{
+  padding:140px 52px;background:var(--bg);
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.sv-cta-left .sec-h{margin-top:20px;}
+.sv-cta-desc{font-size:1rem;line-height:1.8;color:var(--t50);font-weight:300;margin-top:24px;max-width:440px;}
+.sv-cta-right{display:flex;flex-direction:column;gap:16px;}
+.cta-info-row{display:flex;align-items:center;justify-content:space-between;padding:24px 28px;background:var(--s1);border:1px solid var(--t06);transition:border-color .3s;cursor:none;}
+.cta-info-row:hover{border-color:var(--or);}
+.cta-info-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--t25);margin-bottom:4px;}
+.cta-info-val{font-size:.95rem;}
+.cta-arrow{font-size:1.1rem;color:var(--t25);transition:color .3s,transform .3s;}
+.cta-info-row:hover .cta-arrow{color:var(--or);transform:translate(4px,-4px);}
+.btn-or{display:inline-flex;align-items:center;gap:12px;background:var(--or);color:#000;padding:16px 36px;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .4s var(--ease);position:relative;overflow:hidden;border:none;}
+.btn-or::before{content:'';position:absolute;inset:0;background:#fff;transform:translateX(-101%);transition:transform .4s var(--ease);}
+.btn-or:hover::before{transform:none;}
+.btn-or span{position:relative;z-index:1;}
+.btn-gh{display:inline-flex;align-items:center;gap:8px;color:var(--t50);font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid transparent;padding-bottom:3px;transition:all .3s;cursor:none;}
+.btn-gh:hover{color:#fff;border-bottom-color:var(--or);}
+
+/* FOOTER */
+footer{background:#000;padding:52px;border-top:1px solid var(--t06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.ft-logo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;}
+.ft-logo em{color:var(--or);font-style:normal;}
+.ft-links{display:flex;gap:32px;}
+.ft-links a{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t25);text-decoration:none;transition:color .3s;}
+.ft-links a:hover{color:var(--or);}
+.ft-copy{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:rgba(255,255,255,0.15);}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s var(--ease2),transform .8s var(--ease2);}
+.reveal-l{opacity:0;transform:translateX(-36px);transition:opacity .8s var(--ease2),transform .8s var(--ease2);}
+.reveal-r{opacity:0;transform:translateX(36px);transition:opacity .8s var(--ease2),transform .8s var(--ease2);}
+.up{opacity:1!important;transform:none!important;}
+
+/* RESPONSIVE */
+@media(max-width:1200px){
+  .sv-item{grid-template-columns:60px 1fr 1fr;}.sv-meta{grid-column:3;}
+  .process-steps{grid-template-columns:1fr 1fr;}
+  .packages-grid{grid-template-columns:1fr;}
+  .packages-header{grid-template-columns:1fr;}
+  .sv-cta{grid-template-columns:1fr;}
+  .sv-list-header{grid-template-columns:1fr;}
+  .faq-wrap{grid-template-columns:1fr;gap:60px;}
+  .faq-sticky{position:static;}
+}
+@media(max-width:900px){
+  .sv-item{grid-template-columns:1fr;gap:20px;padding:40px 0;}
+  .sv-num{padding-top:0;}
+  .process-steps{grid-template-columns:1fr;}
+  .proc-step{border-left:none;border-top:1px solid var(--t06);}
+}
+@media(max-width:768px){
+  nav{padding:20px 24px;}nav.sc{padding:16px 24px;}
+  .nlinks{display:none;}.ntog{display:flex;}
+  .sv-hero,.sv-list,.sv-packages,.sv-process,.sv-faq,.sv-clients,.sv-cta,footer{padding-left:24px;padding-right:24px;}
+  .packages-grid{grid-template-columns:1fr;}
+  .cl-row{flex-direction:column;}.cl-item{border-right:none;border-bottom:1px solid var(--t06);}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"><div class="cr"></div><div class="cd"></div></div>
+
+<nav id="nav">
+  <a href="silindile-kunene-portfolio.html" class="nlogo">SK<em>.</em></a>
+  <ul class="nlinks">
+    <li><a href="about.html">About</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="case-study.html">Case Study</a></li>
+    <li><a href="silindile-kunene-portfolio.html#contact" class="ncta">Hire Me</a></li>
+  </ul>
+  <button class="ntog" id="ntog"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob" id="mob">
+  <button class="mob-x" id="mobx">✕</button>
+  <a href="about.html" onclick="cm()">About</a>
+  <a href="work.html" onclick="cm()">Work</a>
+  <a href="services.html" onclick="cm()">Services</a>
+  <a href="case-study.html" onclick="cm()">Case Study</a>
+  <a href="silindile-kunene-portfolio.html#contact" onclick="cm()">Hire Me</a>
+</div>
+
+<!-- HERO -->
+<section class="sv-hero">
+  <div class="sv-hero-eyebrow">Creative Services · Johannesburg & Global</div>
+  <h1 class="sv-hero-title">What I<br><em>Create</em></h1>
+  <p class="sv-hero-desc">Premium creative services for brands that want to command attention, build trust, and stay memorable — from first touchpoint to lasting impression.</p>
+  <div class="sv-hero-scroll">
+    <div class="sv-scroll-txt">Explore Services</div>
+    <div class="sv-scroll-line"></div>
+  </div>
+</section>
+
+<!-- SERVICES LIST -->
+<section class="sv-list">
+  <div class="sv-list-header">
+    <div class="reveal-l">
+      <div class="sec-label">What I Do</div>
+      <h2 class="sec-h">Six disciplines.<br>One <em>creative vision.</em></h2>
+    </div>
+    <p class="sv-list-intro reveal-r" style="transition-delay:.1s">Every service I offer is built around a core belief: that design is strategy made visible. I don't just make things look good — I make them work harder.</p>
+  </div>
+
+  <div class="sv-item reveal" style="transition-delay:.05s" id="branding">
+    <div class="sv-num">01</div>
+    <div class="sv-main">
+      <div class="sv-name">Brand Identity Design</div>
+      <div class="sv-desc">Full-system brand development — from positioning and strategy to logo, typography, color, and comprehensive guidelines that work across every touchpoint. This is the most complete thing I do, and the work I'm most proud of.</div>
+    </div>
+    <div class="sv-includes">
+      <div class="sv-include yes">Brand strategy & research</div>
+      <div class="sv-include yes">Logo & secondary marks</div>
+      <div class="sv-include yes">Typography system</div>
+      <div class="sv-include yes">Color palette & usage</div>
+      <div class="sv-include yes">Brand guidelines document</div>
+      <div class="sv-include yes">Stationery suite design</div>
+      <div class="sv-include yes">Social media templates</div>
+    </div>
+    <div class="sv-meta">
+      <div>
+        <div class="sv-price-label">Starting From</div>
+        <div class="sv-price">R35,000</div>
+      </div>
+      <div>
+        <div class="sv-timeline-label">Timeline</div>
+        <div class="sv-timeline">4–8 weeks</div>
+      </div>
+      <a href="silindile-kunene-portfolio.html#contact" class="sv-cta-link">Get a Quote →</a>
+    </div>
+  </div>
+
+  <div class="sv-item reveal" style="transition-delay:.1s" id="web">
+    <div class="sv-num">02</div>
+    <div class="sv-main">
+      <div class="sv-name">Web & Digital Design</div>
+      <div class="sv-desc">High-fidelity UI/UX design for websites, landing pages, and digital platforms. Designed in Figma with complete prototypes, design systems, and developer-ready handoff. Built to convert, crafted to impress.</div>
+    </div>
+    <div class="sv-includes">
+      <div class="sv-include yes">UX research & wireframes</div>
+      <div class="sv-include yes">Full UI design in Figma</div>
+      <div class="sv-include yes">Interactive prototype</div>
+      <div class="sv-include yes">Mobile responsive design</div>
+      <div class="sv-include yes">Design system / component library</div>
+      <div class="sv-include yes">Developer handoff files</div>
+      <div class="sv-include yes">Optional Webflow build</div>
+    </div>
+    <div class="sv-meta">
+      <div>
+        <div class="sv-price-label">Starting From</div>
+        <div class="sv-price">R28,000</div>
+      </div>
+      <div>
+        <div class="sv-timeline-label">Timeline</div>
+        <div class="sv-timeline">3–6 weeks</div>
+      </div>
+      <a href="silindile-kunene-portfolio.html#contact" class="sv-cta-link">Get a Quote →</a>
+    </div>
+  </div>
+
+  <div class="sv-item reveal" style="transition-delay:.15s" id="direction">
+    <div class="sv-num">03</div>
+    <div class="sv-main">
+      <div class="sv-name">Creative Direction</div>
+      <div class="sv-desc">Leading the visual vision for campaigns, product launches, and brand activations. I develop the creative concept, moodboards, visual language, and oversee execution across all channels — ensuring everything looks like it belongs together.</div>
+    </div>
+    <div class="sv-includes">
+      <div class="sv-include yes">Creative concept development</div>
+      <div class="sv-include yes">Moodboards & direction</div>
+      <div class="sv-include yes">Photo art direction</div>
+      <div class="sv-include yes">Campaign visual system</div>
+      <div class="sv-include yes">Cross-channel consistency</div>
+      <div class="sv-include yes">On-set direction (if required)</div>
+    </div>
+    <div class="sv-meta">
+      <div>
+        <div class="sv-price-label">Starting From</div>
+        <div class="sv-price">R22,000</div>
+      </div>
+      <div>
+        <div class="sv-timeline-label">Timeline</div>
+        <div class="sv-timeline">2–5 weeks</div>
+      </div>
+      <a href="silindile-kunene-portfolio.html#contact" class="sv-cta-link">Get a Quote →</a>
+    </div>
+  </div>
+
+  <div class="sv-item reveal" style="transition-delay:.2s" id="packaging">
+    <div class="sv-num">04</div>
+    <div class="sv-main">
+      <div class="sv-name">Packaging & Print</div>
+      <div class="sv-desc">Tactile, shelf-ready packaging design and premium print collateral. From FMCG to luxury goods, I create packaging that tells a brand story at arm's length and rewards close attention. All files prepared for professional print production.</div>
+    </div>
+    <div class="sv-includes">
+      <div class="sv-include yes">Structural brief & dielines</div>
+      <div class="sv-include yes">Packaging design (all sides)</div>
+      <div class="sv-include yes">Print-ready final artwork</div>
+      <div class="sv-include yes">Business cards & stationery</div>
+      <div class="sv-include yes">Brochures & booklets</div>
+      <div class="sv-include yes">Signage & environmental</div>
+    </div>
+    <div class="sv-meta">
+      <div>
+        <div class="sv-price-label">Starting From</div>
+        <div class="sv-price">R18,000</div>
+      </div>
+      <div>
+        <div class="sv-timeline-label">Timeline</div>
+        <div class="sv-timeline">2–4 weeks</div>
+      </div>
+      <a href="silindile-kunene-portfolio.html#contact" class="sv-cta-link">Get a Quote →</a>
+    </div>
+  </div>
+
+  <div class="sv-item reveal" style="transition-delay:.25s" id="social">
+    <div class="sv-num">05</div>
+    <div class="sv-main">
+      <div class="sv-name">Social & Digital Content</div>
+      <div class="sv-desc">Visual content systems for Instagram, LinkedIn, and digital advertising — templates, animated posts, and campaign visuals designed to perform. Built as reusable systems your team can execute independently, consistently.</div>
+    </div>
+    <div class="sv-includes">
+      <div class="sv-include yes">Social media template system</div>
+      <div class="sv-include yes">Feed grid design</div>
+      <div class="sv-include yes">Story templates</div>
+      <div class="sv-include yes">Animated post designs</div>
+      <div class="sv-include yes">Digital ad creative</div>
+      <div class="sv-include yes">Content calendar layouts</div>
+    </div>
+    <div class="sv-meta">
+      <div>
+        <div class="sv-price-label">Starting From</div>
+        <div class="sv-price">R12,000</div>
+      </div>
+      <div>
+        <div class="sv-timeline-label">Timeline</div>
+        <div class="sv-timeline">1–3 weeks</div>
+      </div>
+      <a href="silindile-kunene-portfolio.html#contact" class="sv-cta-link">Get a Quote →</a>
+    </div>
+  </div>
+
+  <div class="sv-item reveal" style="transition-delay:.3s" id="presentations">
+    <div class="sv-num">06</div>
+    <div class="sv-main">
+      <div class="sv-name">Visual Storytelling</div>
+      <div class="sv-desc">Pitch decks, annual reports, brand narratives, and investor presentations that communicate complex ideas through beautiful, persuasive design. The visual quality of your presentation signals the quality of your thinking.</div>
+    </div>
+    <div class="sv-includes">
+      <div class="sv-include yes">Pitch deck design</div>
+      <div class="sv-include yes">Annual report design</div>
+      <div class="sv-include yes">Infographic design</div>
+      <div class="sv-include yes">Brand narrative documents</div>
+      <div class="sv-include yes">Presentation templates</div>
+      <div class="sv-include yes">Data visualisation</div>
+    </div>
+    <div class="sv-meta">
+      <div>
+        <div class="sv-price-label">Starting From</div>
+        <div class="sv-price">R8,500</div>
+      </div>
+      <div>
+        <div class="sv-timeline-label">Timeline</div>
+        <div class="sv-timeline">1–2 weeks</div>
+      </div>
+      <a href="silindile-kunene-portfolio.html#contact" class="sv-cta-link">Get a Quote →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="sv-packages">
+  <div class="packages-header">
+    <div class="reveal-l">
+      <div class="sec-label">Packages</div>
+      <h2 class="sec-h">Bundled for<br><em>clarity &amp; value.</em></h2>
+    </div>
+    <p class="packages-intro reveal-r" style="transition-delay:.1s">Most clients need more than one service. These packages are designed to give you the most complete solution at the best value — with clear deliverables and timelines from day one.</p>
+  </div>
+  <div class="packages-grid">
+
+    <div class="pkg-card reveal" style="transition-delay:.05s">
+      <div class="pkg-label">Starter Package</div>
+      <div class="pkg-name">Brand Essentials</div>
+      <div class="pkg-desc">Everything a new brand needs to launch with confidence. Clean, professional, and consistent from day one.</div>
+      <div class="pkg-price">R45,000</div>
+      <div class="pkg-price-note">Once-off · 5–7 weeks</div>
+      <div class="pkg-divider"></div>
+      <div class="pkg-features">
+        <div class="pkg-feature"><span class="check">✓</span><span>Logo & primary mark</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Color palette & typography</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Brand guidelines (20 pages)</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Business card design</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>3 social media templates</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>2 revision rounds</span></div>
+        <div class="pkg-feature"><span class="cross">—</span><span style="color:var(--t25);">Website design</span></div>
+        <div class="pkg-feature"><span class="cross">—</span><span style="color:var(--t25);">Packaging design</span></div>
+      </div>
+      <a href="silindile-kunene-portfolio.html#contact" class="pkg-btn">Get Started →</a>
+      <div class="pkg-note">Best for: Startups, new brands</div>
+    </div>
+
+    <div class="pkg-card featured reveal" style="transition-delay:.1s">
+      <div class="pkg-badge">Most Popular</div>
+      <div class="pkg-label">Growth Package</div>
+      <div class="pkg-name">Brand + Digital</div>
+      <div class="pkg-desc">Full brand identity combined with a high-performance website. The complete foundation for growing brands ready to invest in their future.</div>
+      <div class="pkg-price">R95,000</div>
+      <div class="pkg-price-note">Once-off · 8–12 weeks</div>
+      <div class="pkg-divider"></div>
+      <div class="pkg-features">
+        <div class="pkg-feature"><span class="check">✓</span><span>Everything in Brand Essentials</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Full website UI design (Figma)</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Mobile responsive design</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Up to 8 page designs</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Social media kit (10 templates)</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Brand guidelines (40 pages)</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>3 revision rounds per phase</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Strategy call included</span></div>
+      </div>
+      <a href="silindile-kunene-portfolio.html#contact" class="pkg-btn">Get Started →</a>
+      <div class="pkg-note">Best for: Established brands, rebrands</div>
+    </div>
+
+    <div class="pkg-card reveal" style="transition-delay:.15s">
+      <div class="pkg-label">Premium Package</div>
+      <div class="pkg-name">Full Brand System</div>
+      <div class="pkg-desc">The complete brand experience — identity, web, packaging, campaigns, and creative direction. For brands that want to own their category.</div>
+      <div class="pkg-price">R160,000+</div>
+      <div class="pkg-price-note">Custom quote · 12–20 weeks</div>
+      <div class="pkg-divider"></div>
+      <div class="pkg-features">
+        <div class="pkg-feature"><span class="check">✓</span><span>Everything in Brand + Digital</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Packaging design system</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Full social media system</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Campaign creative direction</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Environmental / signage</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Brand guidelines (80+ pages)</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>Unlimited revisions</span></div>
+        <div class="pkg-feature"><span class="check">✓</span><span>12-month brand support</span></div>
+      </div>
+      <a href="silindile-kunene-portfolio.html#contact" class="pkg-btn">Get a Quote →</a>
+      <div class="pkg-note">Best for: Luxury brands, corporates</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sv-process">
+  <div class="reveal">
+    <div class="sec-label">How It Works</div>
+    <h2 class="sec-h">A disciplined<br>process that<br><em>delivers results.</em></h2>
+  </div>
+  <div class="process-steps">
+    <div class="proc-step reveal" style="transition-delay:.05s">
+      <div class="proc-n">01</div>
+      <div class="proc-title">Discovery Call</div>
+      <div class="proc-desc">We start with a 45-minute call to understand your brand, goals, challenges, and vision. No charge, no commitment.</div>
+      <div class="proc-time">Day 1</div>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.1s">
+      <div class="proc-n">02</div>
+      <div class="proc-title">Strategy & Research</div>
+      <div class="proc-desc">Deep research into your brand, audience, and competitive landscape. Strategic foundations documented before any design begins.</div>
+      <div class="proc-time">Week 1–2</div>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.15s">
+      <div class="proc-n">03</div>
+      <div class="proc-title">Concept Development</div>
+      <div class="proc-desc">Three creative directions presented as moodboards and initial concepts. Each has a distinct strategic rationale and visual language.</div>
+      <div class="proc-time">Week 2–4</div>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.2s">
+      <div class="proc-n">04</div>
+      <div class="proc-title">Design & Refine</div>
+      <div class="proc-desc">The chosen direction developed to its fullest. Revision rounds until every detail is exactly right. No compromise on craft.</div>
+      <div class="proc-time">Week 4–7</div>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.25s">
+      <div class="proc-n">05</div>
+      <div class="proc-title">Deliver & Guide</div>
+      <div class="proc-desc">Complete file package delivered with a handover session. You leave knowing exactly how to use your brand correctly.</div>
+      <div class="proc-time">Week 8</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sv-faq">
+  <div class="faq-wrap">
+    <div class="faq-sticky">
+      <div class="reveal-l">
+        <div class="sec-label">Common Questions</div>
+        <h2 class="sec-h">Questions<br>worth <em>asking.</em></h2>
+      </div>
+      <p style="margin-top:28px;font-size:.95rem;line-height:1.75;color:var(--t50);font-weight:300;max-width:300px;" class="reveal-l" style="transition-delay:.1s">If you don't see your question here, just reach out directly — I respond to every inquiry personally.</p>
+      <div style="margin-top:40px;" class="reveal-l" style="transition-delay:.15s">
+        <a href="silindile-kunene-portfolio.html#contact" class="btn-or"><span>Ask a Question</span></a>
+      </div>
+    </div>
+    <div class="faq-list reveal-r" style="transition-delay:.1s">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">How do payments work?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">I work on a milestone-based payment structure. A 50% deposit is required to start the project, with the remaining 50% due upon final delivery. For larger projects, we can agree on a custom payment schedule split across key milestones.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">Do you work with clients outside South Africa?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Yes — I work with clients globally. Invoicing for international clients is done in USD or ZAR depending on preference. I've worked with clients across the UK, Nigeria, Kenya, the UAE, and the US. Time zone differences are managed through structured async communication and scheduled video calls.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">How many revision rounds are included?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">The number of revision rounds depends on the package. Starter includes 2 rounds, Growth includes 3 per phase, and Premium includes unlimited revisions. In practice, most projects are resolved well within the included rounds — because I invest heavily in discovery upfront so we're aligned before any design begins.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">What files will I receive at the end?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">You receive a complete, organised file package including: AI and EPS source files, SVG files, high-resolution PNG and PDF exports (in all colour variants), web-optimised assets, and the full brand guidelines document as a print-ready PDF. Everything you need to use your brand correctly across any application.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">Can you help if I only need a small update?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">Yes — for smaller, focused projects I offer a day-rate of R3,500 or a half-day rate of R2,000. This works well for things like updating an existing brand asset, designing a single marketing piece, or reviewing and refreshing specific brand materials. Reach out and we'll find the right structure.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">What makes you different from other designers?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">I bring three things most designers don't: strategic thinking before any visual work, deep knowledge of African brand culture and markets, and senior-level craft across every medium. I'm also genuinely invested in outcomes — not just deliverables. My repeat client rate is over 80%, which tells you something about how I work.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">How far in advance should I book?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">I take a limited number of projects per quarter to protect quality. I'm typically booked 4–8 weeks in advance. If you have a specific launch date in mind, the earlier you reach out, the better. I always recommend a discovery call first — no obligation — so we can confirm fit and timeline before committing.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<div class="sv-clients reveal">
+  <div class="cl-label">Trusted By</div>
+  <div class="cl-row">
+    <div class="cl-item"><span class="cl-name">Ubuntu Financial</span></div>
+    <div class="cl-item"><span class="cl-name">Aurum Collective</span></div>
+    <div class="cl-item"><span class="cl-name">Mzansi Skincare</span></div>
+    <div class="cl-item"><span class="cl-name">KZN Tourism</span></div>
+    <div class="cl-item"><span class="cl-name">Basadi Wines</span></div>
+    <div class="cl-item"><span class="cl-name">Zulu Tech</span></div>
+    <div class="cl-item"><span class="cl-name">Kaya FM</span></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="sv-cta">
+  <div class="sv-cta-left reveal-l">
+    <div class="sec-label">Start a Project</div>
+    <h2 class="sec-h">Let's build<br>something <em>remarkable.</em></h2>
+    <p class="sv-cta-desc">Ready to invest in your brand? Tell me about your project and I'll come back with a clear proposal, timeline, and investment within 48 hours.</p>
+    <div style="margin-top:40px;display:flex;gap:16px;flex-wrap:wrap;">
+      <a href="silindile-kunene-portfolio.html#contact" class="btn-or"><span>Get a Free Quote</span></a>
+      <a href="work.html" class="btn-gh">See My Work ↗</a>
+    </div>
+  </div>
+  <div class="sv-cta-right reveal-r" style="transition-delay:.1s">
+    <div class="cta-info-row">
+      <div><div class="cta-info-label">Response Time</div><div class="cta-info-val">Within 24–48 hours</div></div>
+      <div class="cta-arrow">↗</div>
+    </div>
+    <div class="cta-info-row">
+      <div><div class="cta-info-label">Availability</div><div class="cta-info-val">Limited spots — Q1 2025</div></div>
+      <div class="cta-arrow">↗</div>
+    </div>
+    <div class="cta-info-row">
+      <div><div class="cta-info-label">Free Consultation</div><div class="cta-info-val">45-minute discovery call</div></div>
+      <div class="cta-arrow">↗</div>
+    </div>
+    <div class="cta-info-row">
+      <div><div class="cta-info-label">Location</div><div class="cta-info-val">Johannesburg · Remote Worldwide</div></div>
+      <div class="cta-arrow">↗</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-logo">SK<em>.</em></div>
+  <div class="ft-links">
+    <a href="silindile-kunene-portfolio.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="work.html">Work</a>
+    <a href="case-study.html">Case Study</a>
+    <a href="silindile-kunene-portfolio.html#contact">Contact</a>
+  </div>
+  <div class="ft-copy">© 2024 Silindile Kunene</div>
+</footer>
+
+<script>
+// CURSOR
+const $c=document.getElementById('cur');
+const $d=$c.querySelector('.cd');
+const $r=$c.querySelector('.cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;$d.style.left=mx+'px';$d.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;$r.style.left=rx+'px';$r.style.top=ry+'px';requestAnimationFrame(a);})();
+document.querySelectorAll('a,button,.sv-item,.pkg-card,.cta-info-row,.cl-item,.proc-step,.faq-q').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>60));
+document.getElementById('ntog').addEventListener('click',()=>document.getElementById('mob').classList.add('open'));
+document.getElementById('mobx').addEventListener('click',cm);
+function cm(){document.getElementById('mob').classList.remove('open');}
+// REVEAL
+const ro=new IntersectionObserver(entries=>entries.forEach((e,i)=>{
+  if(e.isIntersecting)setTimeout(()=>e.target.classList.add('up'),i*65);
+}),{threshold:.07,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>ro.observe(el));
+// FAQ
+function toggleFaq(btn){
+  const item=btn.parentElement;
+  const ans=item.querySelector('.faq-a');
+  const inner=ans.querySelector('.faq-a-inner');
+  const isOpen=item.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-item.open').forEach(i=>{
+    i.classList.remove('open');
+    i.querySelector('.faq-a').style.height='0';
+  });
+  if(!isOpen){
+    item.classList.add('open');
+    ans.style.height=inner.offsetHeight+'px';
+  }
+}
+</script>
+</body>
+</html>
